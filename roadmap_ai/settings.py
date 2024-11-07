@@ -1,6 +1,8 @@
 from functools import lru_cache
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 
 
 class Settings(BaseSettings):
@@ -26,3 +28,9 @@ class Settings(BaseSettings):
 @lru_cache
 def get_settings():
     return Settings()
+
+engine = create_engine(get_settings().db_url)
+
+def get_session():
+    with Session(engine) as session:
+        yield session

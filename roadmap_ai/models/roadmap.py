@@ -12,6 +12,7 @@ table_registry = registry()
 class Roadmap:
     __tablename__ = "roadmaps"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     status: Mapped[RoadmapStatus] = mapped_column(nullable=False)
+    skill: Mapped[str] = mapped_column(nullable=False)
     content: Mapped[str] = mapped_column(nullable=True)
