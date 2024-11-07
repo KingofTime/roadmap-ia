@@ -19,7 +19,7 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 FROM base AS api
 WORKDIR /app
 COPY poetry.lock pyproject.toml ./
-RUN poetry install --with api
+RUN poetry lock && poetry install --with api
 
 ENTRYPOINT ["./scripts/entrypoints/api.sh"]
 

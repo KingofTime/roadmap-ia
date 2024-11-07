@@ -16,7 +16,7 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
-      - dbdata:/var/lib/postgres/data
+      - db_data:/var/lib/postgres/data
     ports:
       - ${DB_FORWARD_PORT}:${DB_PORT}
     networks:
@@ -40,8 +40,37 @@ services:
     networks:
       - roadmap_ai
 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: roadmap_ai__pgadmin
+    restart: always
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@localhost.com
+      PGADMIN_DEFAULT_PASSWORD: Coffee897
+    ports:
+      - "8200:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - roadmap_ai
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - roadmap_ai
+
 volumes:
-  dbdata:
+  db_data:
+  pgadmin_data:
+  rabbitmq_data:
 
 networks:
   roadmap_ai:

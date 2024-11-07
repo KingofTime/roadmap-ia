@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     db_port: int = 5432
     db_forward_port: int = 5433
     db_driver: str = "postgresql+psycopg2"
+    openai_api_key: str
 
     @property
     def db_url(self):

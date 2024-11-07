@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from roadmap_ai.enums import RoadmapStatus
 from roadmap_ai.models import Roadmap
 from roadmap_ai.schemas.roadmap import RoadmapSchema, RoadmapPublicSchema
+from roadmap_ai.services.ai import OpenAIService
 from roadmap_ai.settings import get_session
 
 app = FastAPI()
@@ -18,9 +19,11 @@ logger.setLevel(logging.DEBUG)
     response_model=RoadmapPublicSchema
 )
 def create_roadmap(schema: RoadmapSchema, session: Session = Depends(get_session)):
-    try:
-        roadmap = Roadmap(skill=schema.skill, status=RoadmapStatus.new)
+    openai_service = OpenAIService()
+    content = openai_service.get_roadmap(schema.skill)
 
+    try:
+        roadmap = Roadmap(skill=schema.skill, status=RoadmapStatus.done, content=content)
         session.add(roadmap)
         session.commit()
         session.refresh(roadmap)
