@@ -21,7 +21,7 @@ WORKDIR /app
 COPY poetry.lock pyproject.toml ./
 RUN poetry install --with api
 
-FROM base AS worker
-WORKDIR /app
-COPY poetry.lock pyproject.toml ./
-RUN poetry install --with worker
+#FROM base AS worker
+#WORKDIR /app
+#COPY poetry.lock pyproject.toml ./
+#RUN poetry install --with worker

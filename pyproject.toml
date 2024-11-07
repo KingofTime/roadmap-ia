@@ -8,6 +8,8 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+psycopg2 = "^2.9.10"
+sqlalchemy = "^2.0.36"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.7.1"
@@ -16,6 +18,8 @@ pytest = "^8.3.3"
 [tool.poetry.group.api.dependencies]
 fastapi = {extras = ["standard"], version = "^0.115.4"}
 pydantic = "^2.9.2"
+pydantic-settings = "^2.6.1"
+alembic = "^1.14.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -23,6 +27,11 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
 line-length = 120
+extend-exclude = ['migrations']
+
+[tool.ruff.format]
+preview = true
+quote-style = 'single'
 
 [tool.ruff.lint]
 select = [

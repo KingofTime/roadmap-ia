@@ -30,7 +30,7 @@ services:
     depends_on:
       database:
         condition: service_healthy
-    command: fastapi run app/main.py --port ${API_PORT}
+    command: fastapi run roadmap_ai/main.py --port ${API_PORT}
     volumes:
       - .:/app
     ports:
