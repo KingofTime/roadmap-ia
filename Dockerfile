@@ -21,6 +21,8 @@ WORKDIR /app
 COPY poetry.lock pyproject.toml ./
 RUN poetry install --with api
 
+ENTRYPOINT ["./scripts/entrypoints/api.sh"]
+
 #FROM base AS worker
 #WORKDIR /app
 #COPY poetry.lock pyproject.toml ./
