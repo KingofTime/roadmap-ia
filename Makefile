@@ -12,3 +12,7 @@ prune:
 
 shell:
 	docker compose --env-file .env exec -it api /bin/sh
+
+lint:
+	docker compose --env-file .env exec -it api ruff format
+	docker compose --env-file .env exec -it api ruff check
