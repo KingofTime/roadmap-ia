@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  database:
+    image: postgres:16.4
+    container_name: roadmap_ai__database
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - dbdata:/var/lib/postgres/data
+    ports:
+      - ${DB_FORWARD_PORT}:${DB_PORT}
+    networks:
+      - roadmap_ai
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: api
+    container_name: roadmap_ai__api
+    depends_on:
+      database:
+        condition: service_healthy
+    command: fastapi run app/main.py --port ${API_PORT}
+    volumes:
+      - .:/app
+    ports:
+      - ${API_FORWARD_PORT}:${API_PORT}
+    stdin_open: true
+    tty: true
+    networks:
+      - roadmap_ai
+
+volumes:
+  dbdata:
+
+networks:
+  roadmap_ai:
+    driver: bridge

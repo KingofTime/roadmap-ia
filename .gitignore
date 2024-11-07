@@ -1,0 +1,8 @@
+# Vendoring
+.venv/
+
+# Environment files
+.env
+
+# IDEs config
+.idea/

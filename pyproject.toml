@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "roadmap-ai"
+version = "0.1.0"
+description = "API for Roadmap generation"
+authors = ["Kingoftime"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+[tool.poetry.group.api.dependencies]
+fastapi = {extras = ["standard"], version = "^0.115.4"}
+pydantic = "^2.9.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
