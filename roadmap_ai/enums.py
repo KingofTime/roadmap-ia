@@ -1,6 +1,6 @@
 import enum
 
 class RoadmapStatus(str, enum.Enum):
-    NEW = "new"
-    IN_PROGRESS = "in_progress"
-    DONE = "done"
+    new = "new"
+    in_progress = "in_progress"
+    done = "done"

@@ -1,3 +1,6 @@
+from typing import Optional
+
+from sqlalchemy import Enum as SQLAlchemyEnum
 from sqlalchemy.orm import (
     registry,
     Mapped,
@@ -12,7 +15,7 @@ table_registry = registry()
 class Roadmap:
     __tablename__ = "roadmaps"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    status: Mapped[RoadmapStatus] = mapped_column(nullable=False)
+    id: Mapped[int] = mapped_column(init=False, primary_key=True, autoincrement=True)
+    status: Mapped[RoadmapStatus] = mapped_column(SQLAlchemyEnum(RoadmapStatus), nullable=False)
     skill: Mapped[str] = mapped_column(nullable=False)
-    content: Mapped[str] = mapped_column(nullable=True)
+    content: Mapped[Optional[str]] = mapped_column(nullable=True, default=None)

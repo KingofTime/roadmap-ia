@@ -1,3 +1,4 @@
+import logging
 from http import HTTPStatus
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -8,6 +9,8 @@ from roadmap_ai.schemas.roadmap import RoadmapSchema, RoadmapPublicSchema
 from roadmap_ai.settings import get_session
 
 app = FastAPI()
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 @app.post(
     "/roadmaps",
@@ -16,13 +19,14 @@ app = FastAPI()
 )
 def create_roadmap(schema: RoadmapSchema, session: Session = Depends(get_session)):
     try:
-        roadmap = Roadmap(skill=schema.skill, status=RoadmapStatus.NEW)
+        roadmap = Roadmap(skill=schema.skill, status=RoadmapStatus.new)
 
         session.add(roadmap)
         session.commit()
         session.refresh(roadmap)
-    except:
+    except Exception as exception:
         session.rollback()
+        logger.exception(exception)
         raise HTTPException(
             status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail="Error creating roadmap"
         )
